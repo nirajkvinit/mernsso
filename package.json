@@ -1,0 +1,27 @@
+{
+  "name": "ssotest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "peerinstall": "npm install --prefix peer",
+    "peer2install": "npm install --prefix peer2",
+    "certauthinstall": "npm install --prefix certauth",
+    "ordererinstall": "npm install --prefix orderer",
+    "peerbuild": "npm run build --prefix peer",
+    "peer2build": "npm run build --prefix peer2",
+    "certauthbuild": "npm run build --prefix certauth",
+    "ordererbuild": "npm run build --prefix orderer",
+    "installclients": "run-p peerinstall peer2install certauthinstall ordererinstall",
+    "buildclients": "run-p peerbuild peer2build certauthbuild ordererbuild"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

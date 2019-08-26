@@ -1,0 +1,6 @@
+certauth/build/
+orderer/build/
+peer/build/
+peer2/build/
+node_modules
+.git
