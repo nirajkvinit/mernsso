@@ -4,17 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "peerinstall": "npm install --prefix peer",
-    "peer2install": "npm install --prefix peer2",
-    "certauthinstall": "npm install --prefix certauth",
-    "ordererinstall": "npm install --prefix orderer",
-    "peerbuild": "npm run build --prefix peer",
-    "peer2build": "npm run build --prefix peer2",
-    "certauthbuild": "npm run build --prefix certauth",
-    "ordererbuild": "npm run build --prefix orderer",
-    "installclients": "run-p peerinstall peer2install certauthinstall ordererinstall",
-    "buildclients": "run-p peerbuild peer2build certauthbuild ordererbuild",
-    "start": "nodemon node index.js"
+    "startaccounts": "npm start --prefix accounts",
+    "startclient1": "npm start --prefix client1",
+    "startclient2": "npm start --prefix client2"
   },
   "keywords": [],
   "author": "",
