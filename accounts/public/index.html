@@ -39,5 +39,22 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      window.addEventListener("message", function(event) {
+        if (event.data.reqType && event.data.reqType === "getAuthCookie") {
+          event.source.postMessage(
+            {
+              authCookieVal: getCookie("ssoTest")
+            },
+            "*"
+          );
+        }
+      });
+
+      function getCookie(name) {
+        var v = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+        return v ? v[2] : null;
+      }
+    </script>
   </body>
 </html>

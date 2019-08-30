@@ -7,7 +7,6 @@ export default class Home extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <Fragment>
         <h1>Accounts : Home</h1>
