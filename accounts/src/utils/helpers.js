@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 const fakeAuth = {
   isAuthenticated: () => (Cookies.get("ssoTest") === "yes" ? true : false),
-  async authenticate() {
+  async signin() {
     await timeout(500);
     Cookies.set("ssoTest", "yes");
   },

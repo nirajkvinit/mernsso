@@ -18,12 +18,14 @@ export default class Login extends Component {
       return "";
     }
   };
+  login = () => {};
 
   render() {
     return (
       <div>
         {this.checkAuth()}
         <h1>Login</h1>
+        <Button onClick={this.login}>Login Now!</Button>
       </div>
     );
   }

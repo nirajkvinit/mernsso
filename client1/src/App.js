@@ -1,6 +1,4 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Cookies from "js-cookie";
 
 import React, { Component } from "react";
 
@@ -13,24 +11,24 @@ export default class App extends Component {
     };
 
     this.myRef = React.createRef();
+    window.addEventListener("message", this.msgHandler);
   }
 
   componentDidMount() {
-    if (Cookies.get("ssoTest") === "yes") {
+    if (localStorage.hashcorpJWToken) {
       this.setState({ isAuthenticated: true });
-    } else {
-      window.addEventListener("message", this.msgHandler);
-
-      setTimeout(() => {
-        this.getAuthenticated();
-      }, 1);
     }
   }
+  // componentDidUpdate() {
+  //   if (!localStorage.hashcorpJWToken) {
+  //     this.setState({ isAuthenticated: false });
+  //   }
+  // }
 
   getAuthenticated = () => {
     this.myRef.current.contentWindow.postMessage(
       {
-        reqType: "getAuthCookie"
+        reqType: "hashcorpJWToken"
       },
       "*"
     );
@@ -42,16 +40,16 @@ export default class App extends Component {
       .join("&");
 
   msgHandler = e => {
-    if (e.data.hasOwnProperty("authCookieVal")) {
-      if (e.data.authCookieVal === "yes") {
+    if (e.data.hasOwnProperty("hashcorpJWToken")) {
+      if (e.data.hashcorpJWToken) {
         this.setState({ isAuthenticated: true }, () => {
-          Cookies.set("ssoTest", "yes");
+          localStorage.setItem("hashcorpJWToken", e.data.hashcorpJWToken);
         });
       } else {
         // get current URL and redirect to login url
         const params = { continue: window.location };
         let redirectURI =
-          encodeURI(`${process.env.REACT_APP_LOGIN_ROUTE}`) +
+          encodeURI(`${process.env.REACT_APP_AUTHENTICATOR}`) +
           "?" +
           this.createQueryParams(params);
         window.location = redirectURI;
@@ -66,13 +64,25 @@ export default class App extends Component {
         <header className="App-header">
           <h1>Client1 : Home</h1>
           {isAuthenticated ? (
-            ""
+            <div>
+              <h1
+                onClick={() =>
+                  this.setState({ isAuthenticated: false }, () => {
+                    localStorage.removeItem("hashcorpJWToken");
+                  })
+                }
+              >
+                "Yay! I am autheneticated!"
+              </h1>
+            </div>
           ) : (
             <iframe
+              title="login iframe"
               sandbox="allow-same-origin allow-scripts"
               style={{ display: "none" }}
               ref={this.myRef}
-              src={`${process.env.REACT_APP_LOGIN_ROUTE}`}
+              src={`${process.env.REACT_APP_AUTHENTICATOR}`}
+              onLoad={this.getAuthenticated}
             />
           )}
         </header>
